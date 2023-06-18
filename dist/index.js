@@ -56,8 +56,12 @@ function run() {
                 core.setFailed("Flutter is not installed");
                 return;
             }
-            core.info(`RUN: flutter build ${buildType} ${buildArgs}`);
             yield (0, utils_1.runFlutterBuild)(buildType, buildArgs);
+            core.debug("Build successful");
+            const apiKey = core.getInput("api-key");
+            const apiIssuer = core.getInput("api-issuer");
+            yield (0, utils_1.uploadToAppStore)(apiKey, apiIssuer);
+            core.debug("Upload successful");
         }
         catch (error) {
             if (error instanceof Error)
@@ -108,7 +112,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.runFlutterBuild = exports.isFlutterInstalled = void 0;
+exports.uploadToAppStore = exports.runFlutterBuild = exports.isFlutterInstalled = void 0;
 const exec = __importStar(__nccwpck_require__(514));
 function isFlutterInstalled() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -128,6 +132,23 @@ function runFlutterBuild(type, args) {
     });
 }
 exports.runFlutterBuild = runFlutterBuild;
+function uploadToAppStore(apiKey, apiIssuer) {
+    return __awaiter(this, void 0, void 0, function* () {
+        yield exec.exec("xcrun", [
+            "altool",
+            "--upload-app",
+            "--type",
+            "ios",
+            "-f",
+            "build/ios/ipa/*.ipa",
+            "--apiKey",
+            apiKey,
+            "--apiIssuer",
+            apiIssuer
+        ]);
+    });
+}
+exports.uploadToAppStore = uploadToAppStore;
 
 
 /***/ }),

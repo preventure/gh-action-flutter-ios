@@ -47,9 +47,6 @@
   "simple-git-hooks": {
     "pre-commit": [
       "npm run all"
-    ],
-    "pre-push": [
-      "git add dist && git commit --amend --no-edit --allow-empty --no-verify"
     ]
   }
 }
