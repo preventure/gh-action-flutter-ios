@@ -1,0 +1,16 @@
+name: "Flutter iOS Action"
+description: 'Build and upload flutter iOS apps'
+author: 'Nilo <nbarpujari@bardavon.com>'
+inputs:
+  args:
+    required: false
+    description: 'the arguments to pass to the build command'
+  api-key:
+    required: true
+    description: 'the api key for the app store connect'
+  api-issuer:
+    required: true
+    description: 'the api issuer for the api key'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
