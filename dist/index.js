@@ -112,8 +112,13 @@ exports.runFlutterBuild = exports.isFlutterInstalled = void 0;
 const exec = __importStar(__nccwpck_require__(514));
 function isFlutterInstalled() {
     return __awaiter(this, void 0, void 0, function* () {
-        const flutterVersion = yield exec.getExecOutput("flutter", ["--version"]);
-        return flutterVersion.exitCode === 0;
+        try {
+            const flutterVersion = yield exec.getExecOutput("flutter", ["--version"]);
+            return flutterVersion.exitCode === 0;
+        }
+        catch (_a) {
+            return false;
+        }
     });
 }
 exports.isFlutterInstalled = isFlutterInstalled;

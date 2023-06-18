@@ -1,7 +1,7 @@
 import {test, expect, afterEach} from "vitest";
 import * as path from "path";
 import * as fs from "fs";
-import {getFlutterPath, isFlutterInstalled} from "./utils";
+import {isFlutterInstalled} from "./utils";
 
 afterEach(() => {
   fs.rmSync(path.join(process.env.HOME, "flutter.zip"), {
