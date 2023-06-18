@@ -15,3 +15,21 @@ export async function runFlutterBuild(
 ): Promise<void> {
   await exec.exec("flutter", ["build", type, ...args.split(" ")]);
 }
+
+export async function uploadToAppStore(
+  apiKey: string,
+  apiIssuer: string
+): Promise<void> {
+  await exec.exec("xcrun", [
+    "altool",
+    "--upload-app",
+    "--type",
+    "ios",
+    "-f",
+    "build/ios/ipa/*.ipa",
+    "--apiKey",
+    apiKey,
+    "--apiIssuer",
+    apiIssuer
+  ]);
+}

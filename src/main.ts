@@ -1,6 +1,6 @@
 import * as os from "os";
 import * as core from "@actions/core";
-import {isFlutterInstalled, runFlutterBuild} from "./utils";
+import {isFlutterInstalled, runFlutterBuild, uploadToAppStore} from "./utils";
 
 async function run(): Promise<void> {
   try {
@@ -18,9 +18,13 @@ async function run(): Promise<void> {
       return;
     }
 
-    core.info(`RUN: flutter build ${buildType} ${buildArgs}`);
-
     await runFlutterBuild(buildType, buildArgs);
+    core.debug("Build successful");
+
+    const apiKey = core.getInput("api-key");
+    const apiIssuer = core.getInput("api-issuer");
+    await uploadToAppStore(apiKey, apiIssuer);
+    core.debug("Upload successful");
   } catch (error) {
     if (error instanceof Error) core.setFailed(error.message);
   }
